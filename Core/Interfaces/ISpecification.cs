@@ -9,6 +9,13 @@ public interface ISpecification<T>
      public Expression<Func<T, object>>? OrderBy { get;   }
      public Expression<Func<T, object>>? OrderByDesc { get; }
 
+     public bool IsDistinct {get;}
+
 
  
+}
+public interface ISpecification<T,TResult>: ISpecification<T>
+{
+   public Expression<Func<T,TResult>>? Select {get;}
+  
 }
