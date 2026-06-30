@@ -13,4 +13,7 @@ public interface IGenericRepository<T> where T : BaseEntity
   Task<bool> SaveChangesAsync();
   Task<bool> EntityExists(int id);
 
+  Task<T?> GetEntityWithSpec(ISpecification<T> spec);
+  Task<IReadOnlyList<T>> GetEntitiesWithSpec(ISpecification<T> spec);
+
 }
