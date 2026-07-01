@@ -1,3 +1,4 @@
+using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -14,13 +15,15 @@ public class ProductsController(IGenericRepository<Product> repo) : ControllerBa
     private readonly IGenericRepository<Product> repo = repo;
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Product>>> GetAllProducts([FromQuery] string? brand, [FromQuery] string? type, [FromQuery] string? sort)
+    public async Task<ActionResult<IReadOnlyList<Product>>> GetAllProducts( [FromQuery] ProductSpecParam specParam)
     {
-        var spec = new ProductSpecification(brand, type, sort);
+        var spec = new ProductSpecification(specParam);
         var products = await repo.GetEntitiesWithSpec(spec);
+        var count = await repo.CountAsync(spec);
+        var pagination = new Pagenation<Product>(specParam.PageIndex, specParam.PageSize, count, products);
 
 
-        return Ok(products);
+        return Ok(pagination);
 
     }
     [HttpGet]

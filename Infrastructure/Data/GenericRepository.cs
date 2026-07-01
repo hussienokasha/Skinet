@@ -8,6 +8,12 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 {
     private readonly StoreContext context = context;
 
+    public async Task<int> CountAsync(ISpecification<T> spec)
+    {
+        //ssssssssssssssssssssss
+       return await ApplySpecification(spec).CountAsync();
+    }
+
     public async Task Create(T entity)
     {
       await  context.Set<T>().AddAsync(entity);
@@ -35,6 +41,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
     public async Task<IReadOnlyList<T>> GetEntitiesWithSpec(ISpecification<T> spec)
     {
+        
       return   await ApplySpecification(spec).ToListAsync();
 
     }

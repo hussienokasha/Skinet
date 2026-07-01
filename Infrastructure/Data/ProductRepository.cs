@@ -51,7 +51,7 @@ public class ProductRepository(StoreContext context) : IProductRepository
             _ => query.OrderBy(p => p.Id)
 
         };
-        return await query.ToListAsync();
+        return await query.Skip(2).Take(3).ToListAsync();
 
 
     }

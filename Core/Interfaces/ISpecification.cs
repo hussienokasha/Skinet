@@ -11,6 +11,14 @@ public interface ISpecification<T>
 
      public bool IsDistinct {get;}
 
+     public int Take {get;}
+     public int Skip {get;}
+       public bool IsPagingEnabled {get;}
+
+       public IQueryable<T> ApplyCriteria(IQueryable<T> query);
+       
+       
+
 
  
 }
