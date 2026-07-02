@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.SeedData;
@@ -21,7 +22,7 @@ var app = builder.Build();
 
 
 
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 

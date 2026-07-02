@@ -11,23 +11,23 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
     public async Task<int> CountAsync(ISpecification<T> spec)
     {
         //ssssssssssssssssssssss
-       return await ApplySpecification(spec).CountAsync();
+        return await ApplySpecification(spec).CountAsync();
     }
 
     public async Task Create(T entity)
     {
-      await  context.Set<T>().AddAsync(entity);
+        await context.Set<T>().AddAsync(entity);
     }
 
-    public void Delete (T entity)
+    public void Delete(T entity)
     {
         context.Set<T>().Remove(entity);
     }
 
     public async Task<bool> EntityExists(int id)
     {
-        return await context.Set<T>().AnyAsync(x=>x.Id == id);
-    } 
+        return await context.Set<T>().AnyAsync(x => x.Id == id);
+    }
 
     public async Task<IReadOnlyList<T>> GetAllAsync()
     {
@@ -41,47 +41,47 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
     public async Task<IReadOnlyList<T>> GetEntitiesWithSpec(ISpecification<T> spec)
     {
-        
-      return   await ApplySpecification(spec).ToListAsync();
+
+        return await ApplySpecification(spec).ToListAsync();
 
     }
 
     public async Task<IReadOnlyList<TResult>> GetEntitiesWithSpec<TResult>(ISpecification<T, TResult> spec)
     {
-        return  await ApplySpecification(spec).ToListAsync();
-        
+        return await ApplySpecification(spec).ToListAsync();
+
     }
 
     public async Task<T?> GetEntityWithSpec(ISpecification<T> spec)
     {
-      return   await ApplySpecification(spec).FirstOrDefaultAsync();
-        
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
+
     }
 
     public async Task<TResult?> GetEntityWithSpec<TResult>(ISpecification<T, TResult> spec)
     {
-        return   await ApplySpecification(spec).FirstOrDefaultAsync();
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
     }
 
     public async Task<bool> SaveChangesAsync()
     {
-      return  await context.SaveChangesAsync() > 0;
+        return await context.SaveChangesAsync() > 0;
     }
 
     public void Update(T entity)
     {
- 
+
         context.Set<T>().Update(entity);
-        
+
     }
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
     {
-        return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsQueryable(),spec);
+        return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsQueryable(), spec);
     }
-    private IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T,TResult> spec)
+    private IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> spec)
     {
-        return SpecificationEvaluator<T>.GetQuery<T,TResult>(context.Set<T>().AsQueryable(),spec);
+        return SpecificationEvaluator<T>.GetQuery<T, TResult>(context.Set<T>().AsQueryable(), spec);
     }
 
-   
+
 }
