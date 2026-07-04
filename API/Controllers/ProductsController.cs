@@ -19,12 +19,10 @@ public class ProductsController(IGenericRepository<Product> repo) : ControllerBa
     {
         var spec = new ProductSpecification(specParam);
         var products = await repo.GetEntitiesWithSpec(spec);
+        spec.DisablePaging(); 
         var count = await repo.CountAsync(spec);
         var pagination = new Pagenation<Product>(specParam.PageIndex, specParam.PageSize, count, products);
-
-
         return Ok(pagination);
-
     }
     [HttpGet]
     [Route("{id}")]

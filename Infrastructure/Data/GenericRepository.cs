@@ -10,7 +10,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
     public async Task<int> CountAsync(ISpecification<T> spec)
     {
-        //ssssssssssssssssssssss
+        
         return await ApplySpecification(spec).CountAsync();
     }
 

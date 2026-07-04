@@ -24,10 +24,9 @@ export class FilterDialog {
     this.productService.getBrands();
     this.productService.getTypes();
     this.selectedBrands = this.config.data.selectedBrands;
-    this.selectedTypes = this.config.data.selectedTypes
+    this.selectedTypes = this.config.data.selectedTypes;
   }
   applyFilters() {
-
     this.ref.close({ brands: this.selectedBrands, types: this.selectedTypes });
   }
 }

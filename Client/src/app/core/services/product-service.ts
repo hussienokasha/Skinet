@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Pagination } from '../models/pagination';
 import { Product } from '../models/product';
+import { ShopParams } from '../../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,22 @@ export class ProductService {
   types = signal<string[]>([]);
   brands = signal<string[]>([]);
 
-  getProducts(type?: string, brand?: string) {
+  getProducts(shopParms:ShopParams) {
     let params = new HttpParams();
-    if (type) params = params.append('types', type);
-    if (brand) params = params.append('brands', brand);
-    params = params.append('pageSize', '20');
+    if (shopParms.types.length > 0) {
+      params = params.append('types', shopParms.types.join(','));
+    }
+    if (shopParms.brands.length > 0) {
+      params = params.append('brands', shopParms.brands.join(','));
+    }
+    if (shopParms.sort) {
+      params = params.append('sort', shopParms.sort);
+    }
+    params = params.append('pageSize', shopParms.pageSize.toString());
+    params = params.append('pageIndex', shopParms.pageIndex.toString());
+    if (shopParms.search) {
+      params = params.append('search', shopParms.search);
+    }
     return this.http.get<Pagination<Product>>(`${this.basedUrl}products`, { params });
   }
   getTypes() {
