@@ -1,15 +1,26 @@
+<button (click)="showFilterDialog()"
+  class="border m-4 flex items-center ms-auto border-blue-600 text-blue-600 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+>
+  Filter <i class="fa-solid fa-filter"></i>
+</button>
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
   @for (product of products(); track product.id) {
     <div class="bg-white rounded-lg shadow-md p-4">
-      <img src="assets{{product.pictureUrl}}" alt="{{product.name}}" class="w-full rounded-md mb-4 aspect-square" />
-      <h2 class="text-md font-semibold mb-2">{{product.name}}</h2>
+      <img
+        src="assets{{ product.pictureUrl }}"
+        alt="{{ product.name }}"
+        class="w-full rounded-md mb-4 aspect-square"
+      />
+      <h2 class="text-md font-semibold mb-2">{{ product.name }}</h2>
       <!-- <p class="text-gray-600 mb-4 line-clamp-2" [title]="product.description">{{product.description}}</p> -->
-      <p class="text-blue-500 font-bold text-lg">{{product.price | currency}}</p>
-      <button type="button"  class="mt-4 w-full border  text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300">
+      <p class="text-blue-500 font-bold text-lg">{{ product.price | currency }}</p>
+      <button
+        type="button"
+        class="mt-4 w-full border text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+      >
         <i class="fa-solid fa-basket-shopping"></i>
         Add to Cart
       </button>
     </div>
   }
-
 </div>
