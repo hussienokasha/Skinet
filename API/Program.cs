@@ -6,10 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
+
 
 builder.Services.AddDbContext<StoreContext>(op =>
 {
@@ -20,12 +28,12 @@ builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository
 var app = builder.Build();
 
 
-
+app.UseCors("AngularPolicy");
 
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
-
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 try
 {
@@ -42,6 +50,7 @@ catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
 }
+
 
 app.Run();
 

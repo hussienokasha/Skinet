@@ -1,0 +1,80 @@
+<header class="w-full shadow-md sticky top-0 z-50 bg-white">
+  <div class="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 md:h-20">
+
+    <!-- Logo -->
+    <a routerLink="/" class="shrink-0">
+      <img src="/assets/images/logo.png" alt="logo" class="h-10 md:h-14 w-auto" />
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:block">
+      <ul class="flex items-center space-x-8 text-base lg:text-lg font-medium">
+        <li>
+          <a routerLink="/" routerLinkActive="text-blue-500"
+             class="text-gray-700 hover:text-blue-500 transition-colors duration-300">Home</a>
+        </li>
+        <li>
+          <a routerLink="/products" routerLinkActive="text-blue-500"
+             class="text-gray-700 hover:text-blue-500 transition-colors duration-300">Products</a>
+        </li>
+        <li>
+          <a routerLink="/contact" routerLinkActive="text-blue-500"
+             class="text-gray-700 hover:text-blue-500 transition-colors duration-300">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Right actions -->
+    <div class="flex items-center space-x-3 sm:space-x-4">
+      <button class="relative p-2" type="button" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping text-xl sm:text-2xl text-gray-700"></i>
+        <span
+          class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none"
+          >3</span
+        >
+      </button>
+
+      <p-button
+        label="Login"
+        variant="outlined"
+        severity="contrast"
+        class="hidden sm:inline-flex"
+      />
+
+      <!-- Mobile menu toggle -->
+      <button
+        class="md:hidden p-2 text-gray-700"
+        type="button"
+        aria-label="Toggle menu"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        (click)="toggleMobileMenu()"
+      >
+        <i class="fa-solid text-xl" [class.fa-bars]="!isMobileMenuOpen()" [class.fa-xmark]="isMobileMenuOpen()"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Nav Panel -->
+   @if(isMobileMenuOpen()){
+
+     <nav  class="md:hidden border-t bg-white">
+       <ul class="flex flex-col px-4 py-3 space-y-1 text-base font-medium">
+         <li>
+           <a routerLink="/" (click)="toggleMobileMenu()"
+              class="block py-2 text-gray-700 hover:text-blue-500 transition-colors duration-300">Home</a>
+         </li>
+         <li>
+           <a routerLink="/products" (click)="toggleMobileMenu()"
+              class="block py-2 text-gray-700 hover:text-blue-500 transition-colors duration-300">Products</a>
+         </li>
+         <li>
+           <a routerLink="/contact" (click)="toggleMobileMenu()"
+              class="block py-2 text-gray-700 hover:text-blue-500 transition-colors duration-300">Contact</a>
+         </li>
+         <li class="pt-2">
+           <p-button label="Login" variant="outlined" severity="contrast" class="w-full" />
+         </li>
+       </ul>
+     </nav>
+   }
+</header>
