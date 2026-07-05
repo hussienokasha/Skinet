@@ -1,0 +1,25 @@
+@if (product()) {
+  <div class="container mx-auto mt-10">
+    <div class="flex justify-center items-center gap-10">
+      <img
+        src="assets{{ product().pictureUrl }}"
+        alt="{{ product().name }}"
+        class=" rounded-md aspect-square h-100"
+      />
+      <div class="w-1/2">
+        <h2 class="text-2xl font-semibold mb-2 text-black">{{ product().name }}</h2>
+        <p class="text-gray-600 mb-4 line-clamp-2" [title]="product().description">
+          {{ product().description }}
+        </p>
+        <p class="text-blue-500 font-bold text-lg">{{ product().price | currency }}</p>
+        <button
+          type="button"
+          class="mt-4 w-full border cursor-pointer text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+        >
+          <i class="fa-solid fa-basket-shopping"></i>
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+}

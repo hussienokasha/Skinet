@@ -1,6 +1,6 @@
 <div class="container mx-auto">
   <div class="flex gap-2 items-center justify-between m-4">
-    <form action="" class="flex gap-2 items-center" (submit)="onSearch()  ">
+    <form action="" class="flex gap-2 items-center" (submit)="onSearch()">
       <input
         type="text"
         class="border py-2 px-4 rounded"
@@ -8,7 +8,10 @@
         [formControl]="searchTerm"
         name="search"
       />
-      <button type="submit"  class="border text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300">
+      <button
+        type="submit"
+        class="border text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+      >
         Search
       </button>
     </form>
@@ -30,7 +33,10 @@
 
   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
     @for (product of products().data; track product.id) {
-      <div class="bg-white rounded-lg shadow-md p-4">
+      <div
+        [routerLink]="['/shop', product.id]"
+        class="bg-white rounded-lg shadow-xl p-4 hover:shadow-2xl ring-1 ring-gray-300 hover:-translate-y-2 transition duration-300 cursor-pointer"
+      >
         <img
           src="assets{{ product.pictureUrl }}"
           alt="{{ product.name }}"
@@ -41,7 +47,8 @@
         <p class="text-blue-500 font-bold text-lg">{{ product.price | currency }}</p>
         <button
           type="button"
-          class="mt-4 w-full border text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
+          (click)="$event.stopPropagation()"
+          class="mt-4 w-full border cursor-pointer text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
         >
           <i class="fa-solid fa-basket-shopping"></i>
           Add to Cart

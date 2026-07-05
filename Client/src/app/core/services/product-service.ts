@@ -31,6 +31,9 @@ export class ProductService {
     }
     return this.http.get<Pagination<Product>>(`${this.basedUrl}products`, { params });
   }
+  getProduct(id: number) {
+    return this.http.get<Product>(`${this.basedUrl}products/${id}`);
+  }
   getTypes() {
     if (this.types().length > 0) return;
     return this.http.get<string[]>(`${this.basedUrl}products/types`).subscribe({

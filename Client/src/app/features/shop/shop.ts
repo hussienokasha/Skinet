@@ -9,10 +9,18 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ShopParams } from '../../shared/models/shopParams';
 import { Pagination } from '../../core/models/pagination';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
-  imports: [CurrencyPipe, SelectModule, FormsModule, PaginatorModule,ReactiveFormsModule],
+  imports: [
+    CurrencyPipe,
+    SelectModule,
+    FormsModule,
+    PaginatorModule,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   templateUrl: './shop.html',
   styleUrl: './shop.css',
   providers: [DialogService],

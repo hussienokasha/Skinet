@@ -11,7 +11,7 @@ import { Shop } from "./features/shop/shop";
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
-  imports: [Header, Shop],
+  imports: [Header, RouterOutlet],
 })
 export class App {
 
