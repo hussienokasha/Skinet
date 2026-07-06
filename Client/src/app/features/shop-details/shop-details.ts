@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../core/models/product';
 import { ProductService } from '../../core/services/product-service';
 import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop-details',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe,FormsModule],
   templateUrl: './shop-details.html',
   styleUrl: './shop-details.css',
 })

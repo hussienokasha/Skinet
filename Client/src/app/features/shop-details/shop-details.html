@@ -12,13 +12,25 @@
           {{ product().description }}
         </p>
         <p class="text-blue-500 font-bold text-lg">{{ product().price | currency }}</p>
-        <button
-          type="button"
-          class="mt-4 w-full border cursor-pointer text-blue-500 py-2 px-4 rounded hover:bg-blue-600 hover:text-white transition-colors duration-300"
-        >
-          <i class="fa-solid fa-basket-shopping"></i>
-          Add to Cart
-        </button>
+        <div class="mt-6">
+          <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+          <div class="flex flex-wrap items-center gap-3">
+            <input
+              id="quantity"
+              type="number"
+              min="1"
+              value="1"
+              class="w-24 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="button"
+              class="mt-2 sm:mt-0 inline-flex items-center gap-2 bg-blue-600 text-white py-2 px-5 rounded-lg shadow-sm hover:bg-blue-700 transition-colors duration-300"
+            >
+              <i class="fa-solid fa-basket-shopping"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
