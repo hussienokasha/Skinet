@@ -46,7 +46,6 @@ app.UseCors("AngularPolicy");
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 try
 {

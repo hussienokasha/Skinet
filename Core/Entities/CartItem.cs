@@ -7,15 +7,7 @@ public class CartItem
     public required string PictureUrl {set ; get;}
     public required string Brand {set ; get;}
     public  int Quantity {set ; get;}
-    public required string Type {set ; get;}
     public decimal Price { get; set; }
+    public required string Type {set ; get;}
 
-
-    
-            
-           
-            
-           
-          
-  
 }

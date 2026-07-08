@@ -23,10 +23,9 @@ public class CartService(IConnectionMultiplexer redis) : ICartService
 
     public async Task<ShoppingCart?> SetCartAsync(ShoppingCart cart)
     {
-        Console.WriteLine(cart.Id);
-Console.WriteLine(database.IsConnected("localhost"));
-        var created = await database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart),TimeSpan.FromDays(30));
-        return  !created? null : await GetCartAsync(cart.Id);
-    
+  
+        var created = await database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart), TimeSpan.FromDays(30));
+        return !created ? null : await GetCartAsync(cart.Id);
+
     }
 }

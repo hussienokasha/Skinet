@@ -10,6 +10,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ShopParams } from '../../shared/models/shopParams';
 import { Pagination } from '../../core/models/pagination';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../core/services/cart-service';
 
 @Component({
   selector: 'app-shop',
@@ -31,6 +32,7 @@ export class Shop {
   products = signal<Pagination<Product>>({} as Pagination<Product>);
   productService = inject(ProductService);
   dialogService = inject(DialogService);
+  cartService = inject(CartService);
 
   sortOptions = [
     { label: 'Name', value: 'name' },
@@ -48,6 +50,18 @@ export class Shop {
       },
       error: (err) => console.log(err),
     });
+  }
+  addToCart(product: Product) {
+    this.cartService.addOrUpdateItem({
+      productId: product.id,
+      productName: product.name,
+      price: product.price,
+      pictureUrl: product.pictureUrl,
+      quantity: 1,
+      brand: product.brand,
+      type: product.type,
+    });
+   
   }
   showFilterDialog() {
     this.dialogService

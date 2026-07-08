@@ -14,7 +14,7 @@ public class CartController(ICartService cartService) : ControllerBase
     {
         var cart = await cartService.GetCartAsync(id);
 
-        return Ok(cart ?? new ShoppingCart { Id = id });
+        return Ok(cart);
 
     }
     [HttpPost]
