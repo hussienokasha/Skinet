@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using API.Dtos;
 using Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -42,7 +44,15 @@ public class ErrorHandleController : ControllerBase
         
         return Ok();
     }
-
+    [Authorize]
+    [HttpGet("secret")]
+    public ActionResult GetSecret()
+    {
+        
+        var name = User.FindFirst(ClaimTypes.Name)?.Value;
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return Ok("name is " +name+ " id is " +id);
+    }
 
     
 }
