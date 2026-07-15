@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../core/models/product';
 import { ProductService } from '../../core/services/product-service';
@@ -17,13 +17,25 @@ export class ShopDetails implements OnInit {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
   product = signal<Product>({} as Product);
-  cartItem?: CartItem;
   quantity = signal(1);
+  private productId = signal<number>(0);
+
+  constructor() {
+    effect(() => {
+      const cart = this.cartService.cart();
+      const id = this.productId();
+      if (cart && id) {
+        const existingItem = cart.cartItems.find(x => x.productId === id);
+        this.quantity.set(existingItem?.quantity ?? 1);
+      }
+    });
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
+        this.productId.set(+id);
         this.initProduct(+id);
       }
     });
@@ -33,30 +45,33 @@ export class ShopDetails implements OnInit {
     this.productService.getProduct(id).subscribe({
       next: (data) => {
         this.product.set(data);
-        this.cartItem = this.cartService.cart()?.cartItems.find((x) => x.productId === id);
-        this.quantity.set(this.cartItem?.quantity ?? 1);
+
       },
     });
   }
 
-  updateCart() {
+  addToCart() {
     const product = this.product();
-    const item = {
-      productId: product.id,
-      productName: product.name,
-      price: product.price,
-      pictureUrl: product.pictureUrl,
-      quantity: this.quantity(),
-      brand: product.brand,
-      type: product.type,
-    };
+    const quantity = this.quantity();
+    const existingItem = this.cartService.cart()?.cartItems.find(x => x.productId === product.id);
 
-    if (this.cartItem) {
-      // Item exists - update exact quantity
-      this.cartService.setItemQuantity(product.id, this.quantity());
+    if (existingItem) {
+      // Item exists — set exact quantity rather than adding delta
+      this.cartService.setItemQuantity(product.id, quantity);
     } else {
-      // New item - add it
-      this.cartService.addOrUpdateItem(item, this.quantity());
+      // New item — add with desired quantity
+      this.cartService.addOrUpdateItem(
+        {
+          productId: product.id,
+          productName: product.name,
+          price: product.price,
+          pictureUrl: product.pictureUrl,
+          quantity,
+          brand: product.brand,
+          type: product.type,
+        },
+        quantity
+      );
     }
   }
 }
