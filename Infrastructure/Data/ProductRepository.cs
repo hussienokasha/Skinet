@@ -6,20 +6,19 @@ namespace Infrastructure.Data;
 
 public class ProductRepository(StoreContext context) : IProductRepository
 {
-    private readonly StoreContext context = context;
 
-    public void AddProductAsync(Product product)
+    public async Task AddProductAsync(Product product)
     {
-        context.Products.AddAsync(product);
-
-
+        await context.Products.AddAsync(product);
     }
 
-    public void DeleteProductAsync(int id)
+    public async Task DeleteProductAsync(int id)
     {
-
-        context.Products.Remove(context.Products.Find(id)!);
-
+        var product = await context.Products.FindAsync(id);
+        if (product != null)
+        {
+            context.Products.Remove(product);
+        }
     }
 
     public async Task<IReadOnlyList<string>> GetBrandsAsync()
@@ -51,12 +50,8 @@ public class ProductRepository(StoreContext context) : IProductRepository
             _ => query.OrderBy(p => p.Id)
 
         };
-        return await query.Skip(2).Take(3).ToListAsync();
-
-
+        return await query.ToListAsync();
     }
-
-
 
     public async Task<IReadOnlyList<string>> GetTypesAsync()
     {

@@ -2,12 +2,12 @@ namespace Core.Entities;
 
 public class CartItem
 {
-    public int ProductId {set ; get;}
-    public required string ProductName {set ; get;}
-    public required string PictureUrl {set ; get;}
-    public required string Brand {set ; get;}
-    public  int Quantity {set ; get;}
+    public int ProductId { get; set; }
+    public required string ProductName { get; set; }
+    public required string PictureUrl { get; set; }
+    public required string Brand { get; set; }
+    public int Quantity { get; set; }
     public decimal Price { get; set; }
-    public required string Type {set ; get;}
+    public required string Type { get; set; }
 
 }

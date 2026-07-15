@@ -4,7 +4,7 @@ using Core.Entities;
 
 namespace API.Extensions;
 
-public static class ClaimsPrincipleExstentions
+public static class ClaimsPrincipleExtensions
 {
     public static string GetEmailAddress(this ClaimsPrincipal user)
     {

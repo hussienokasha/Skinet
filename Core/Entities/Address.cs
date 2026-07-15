@@ -8,6 +8,4 @@ public class Address : BaseEntity
     public required string State { get; set; }
     public required string Country { get; set; }
     public required string ZipCode { get; set; }
-
-
 }

@@ -19,5 +19,5 @@ public class CreateProductDto
     public string Type { get; set; } = string.Empty;
     [Required]
     [Range(1, int.MaxValue, ErrorMessage = "Quantity in stock cannot be negative.")]
-    public int QuntityInStock { get; set; }
+    public int QuantityInStock { get; set; }
 }

@@ -6,7 +6,6 @@ namespace Infrastructure.Data;
 
 public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> where T : BaseEntity
 {
-    private readonly StoreContext context = context;
 
     public async Task<int> CountAsync(ISpecification<T> spec)
     {

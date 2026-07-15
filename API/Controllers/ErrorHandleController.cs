@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using API.Dtos;
-using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,9 +31,9 @@ public class ErrorHandleController : ControllerBase
         throw new Exception("This is a server error");
     }
     [HttpGet("validationerror")]
-    public ActionResult GetValidationError( )
+    public ActionResult GetValidationError()
     {
-        return StatusCode(500);
+        return BadRequest(new { error = "This is a validation error" });
     }
 
     [HttpPost("validationerror")]

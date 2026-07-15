@@ -1,10 +1,9 @@
+using API.Dtos;
 using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -12,16 +11,14 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class ProductsController(IGenericRepository<Product> repo) : ControllerBase
 {
-    private readonly IGenericRepository<Product> repo = repo;
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Product>>> GetAllProducts( [FromQuery] ProductSpecParam specParam)
+    public async Task<ActionResult<Pagination<Product>>> GetAllProducts([FromQuery] ProductSpecParam specParam)
     {
         var spec = new ProductSpecification(specParam);
-        var products = await repo.GetEntitiesWithSpec(spec);
-        spec.DisablePaging(); 
         var count = await repo.CountAsync(spec);
-        var pagination = new Pagenation<Product>(specParam.PageIndex, specParam.PageSize, count, products);
+        var products = await repo.GetEntitiesWithSpec(spec);
+        var pagination = new Pagination<Product>(specParam.PageIndex, specParam.PageSize, count, products);
         return Ok(pagination);
     }
     [HttpGet]
@@ -35,8 +32,18 @@ public class ProductsController(IGenericRepository<Product> repo) : ControllerBa
         return Ok(await repo.GetByIdAsync(id));
     }
     [HttpPost]
-    public async Task<ActionResult> AddProduct(Product product)
+    public async Task<ActionResult> AddProduct(CreateProductDto productDto)
     {
+        var product = new Product
+        {
+            Name = productDto.Name,
+            Description = productDto.Description,
+            Price = productDto.Price,
+            PictureUrl = productDto.PictureUrl,
+            Brand = productDto.Brand,
+            Type = productDto.Type,
+            QuantityInStock = productDto.QuantityInStock
+        };
         await repo.Create(product);
         if (await repo.SaveChangesAsync())
         {

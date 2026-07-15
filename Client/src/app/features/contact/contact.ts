@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ContactService } from '../../core/services/contact-service';
 
 @Component({
@@ -7,14 +7,10 @@ import { ContactService } from '../../core/services/contact-service';
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
-export class Contact {
-
+export class Contact implements OnInit {
   contactService = inject(ContactService);
 
-  ngOnInit(){
-    this.contactService.error404().subscribe({
-      
-    });
+  ngOnInit() {
+    this.contactService.error404().subscribe();
   }
-
 }

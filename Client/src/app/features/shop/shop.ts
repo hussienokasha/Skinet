@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Product } from '../../core/models/product';
 import { ProductService } from '../../core/services/product-service';
 import { CurrencyPipe } from '@angular/common';
@@ -26,7 +26,7 @@ import { CartService } from '../../core/services/cart-service';
   styleUrl: './shop.css',
   providers: [DialogService],
 })
-export class Shop {
+export class Shop implements OnInit {
   searchTerm = new FormControl('');
   shopParams = new ShopParams();
   products = signal<Pagination<Product>>({} as Pagination<Product>);
@@ -61,7 +61,7 @@ export class Shop {
       brand: product.brand,
       type: product.type,
     });
-   
+
   }
   showFilterDialog() {
     this.dialogService

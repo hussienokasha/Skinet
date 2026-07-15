@@ -10,65 +10,81 @@ export class CartService {
   private http = inject(HttpClient);
   private basedUrl = environment.apiUrl;
 
-
   cart = signal<Cart | null>(null);
   itemsCount = computed(() => {
     const cart = this.cart();
-
     if (!cart) return 0;
-
     return cart.cartItems.reduce((sum, item) => sum + item.quantity, 0);
   });
   totalPrice = computed(() => {
     const cart = this.cart();
-
     if (!cart) return 0;
-
     return cart.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   });
 
   getCart() {
-    let id = localStorage.getItem('cart_id');
+    const id = localStorage.getItem('cart_id');
     if (!id) return;
     return this.http.get<Cart>(`${this.basedUrl}cart`, { params: { id } }).subscribe({
-      next: (data) => {
-        this.cart.set(data);
-      },
-    });
-  }
-
-   setCart(cart: Cart) {
-    return this.http.post<Cart>(`${this.basedUrl}cart`, cart).subscribe({
-      next: (data) => {
-        this.cart.set(data);
-      },
+      next: (data) => this.cart.set(data),
       error: (err) => console.log(err),
     });
   }
 
-  addOrUpdateItem(product: CartItem, quantity: number = 1) {
-    const cartId = localStorage.getItem('cart_id');
-    if (!cartId) {
-      const newCartId = Date.now().toString();
-      localStorage.setItem('cart_id', newCartId);
-      this.cart.set({
-        id: newCartId,
-        cartItems: [],
-      });
-    }
-    let item = this.cart()?.cartItems.find((x) => x.productId === product.productId);
-    if (item) {
-      item.quantity += quantity;
-    } else {
-      product.quantity = quantity;
-      this.cart()?.cartItems.push(product);
-    }
-    this.setCart(this.cart()!);
+  setCart(cart: Cart) {
+    return this.http.post<Cart>(`${this.basedUrl}cart`, cart).subscribe({
+      next: (data) => this.cart.set(data),
+      error: (err) => console.log(err),
+    });
   }
 
+  addOrUpdateItem(product: CartItem, quantityDelta: number = 1) {
+    const cartId = localStorage.getItem('cart_id') ?? Date.now().toString();
+    if (!localStorage.getItem('cart_id')) {
+      localStorage.setItem('cart_id', cartId);
+    }
+
+    const currentCart = this.cart();
+    const items = currentCart?.cartItems ? [...currentCart.cartItems] : [];
+
+    const existingItemIndex = items.findIndex((x) => x.productId === product.productId);
+    if (existingItemIndex >= 0) {
+      items[existingItemIndex] = {
+        ...items[existingItemIndex],
+        quantity: Math.max(1, items[existingItemIndex].quantity + quantityDelta),
+      };
+    } else {
+      // For new items, use the product's quantity field or the delta
+      const qty = quantityDelta > 0 ? quantityDelta : (product.quantity || 1);
+      items.push({ ...product, quantity: qty });
+    }
+
+    const updatedCart: Cart = { id: cartId, cartItems: items };
+    this.cart.set(updatedCart);
+    this.setCart(updatedCart);
+  }
+
+  setItemQuantity(productId: number, newQuantity: number) {
+    const currentCart = this.cart();
+    if (!currentCart) return;
+
+    const items = [...currentCart.cartItems];
+    const existingItemIndex = items.findIndex((x) => x.productId === productId);
+
+    if (existingItemIndex >= 0) {
+      items[existingItemIndex] = {
+        ...items[existingItemIndex],
+        quantity: Math.max(1, newQuantity),
+      };
+    }
+
+    const updatedCart: Cart = { ...currentCart, cartItems: items };
+    this.cart.set(updatedCart);
+    this.setCart(updatedCart);
+  }
 
   deleteCart() {
-    let cartId = localStorage.getItem('cart_id');
+    const cartId = localStorage.getItem('cart_id');
     if (!cartId) return;
     return this.http.delete(`${this.basedUrl}cart`, { params: { id: cartId } }).subscribe({
       next: () => {
@@ -80,19 +96,22 @@ export class CartService {
   }
 
   removeCartItem(product: CartItem) {
-    const cart = this.cart();
-    if (!cart) return;
-    const itemIndex = cart.cartItems.findIndex((x) => x.productId === product.productId);
-    if (itemIndex === -1) return;
-    cart.cartItems.splice(itemIndex, 1);
-      this.setCart(cart);
-      if(cart.cartItems.length === 0) this.deleteCart();
+    const currentCart = this.cart();
+    if (!currentCart) return;
+
+    const updatedItems = currentCart.cartItems.filter((x) => x.productId !== product.productId);
+    const updatedCart: Cart = { ...currentCart, cartItems: updatedItems };
+    this.cart.set(updatedCart);
+
+    if (updatedItems.length === 0) {
+      this.deleteCart();
+    } else {
+      this.setCart(updatedCart);
+    }
   }
 
-
-
   decrementQuantity(product: CartItem) {
-    if (product.quantity === 1) return;
+    if (product.quantity <= 1) return;
     this.addOrUpdateItem(product, -1);
   }
 }

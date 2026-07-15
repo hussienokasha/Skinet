@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { ProductService } from '../../../core/services/product-service';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -11,7 +11,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
   templateUrl: './filter-dialog.html',
   styleUrl: './filter-dialog.css',
 })
-export class FilterDialog {
+export class FilterDialog implements OnInit {
   selectedBrands: string[] = [];
   selectedTypes: string[] = [];
   ref = inject(DynamicDialogRef);
