@@ -48,7 +48,7 @@ export class Shop implements OnInit {
       next: (data) => {
         this.products.set(data);
       },
-      error: (err) => console.log(err),
+     
     });
   }
   addToCart(product: Product) {

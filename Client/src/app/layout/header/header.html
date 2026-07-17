@@ -46,20 +46,38 @@
           routerLinkActive="text-blue-500!"
         ></i>
         @if (cartService.itemsCount() > 0) {
-        <span
-          class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none"
-          >{{cartService.itemsCount()}}</span
-        >
-
+          <span
+            class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs leading-none"
+            >{{ cartService.itemsCount() }}</span
+          >
         }
       </button>
-
-      <p-button
-        label="Login"
-        variant="outlined"
-        severity="contrast"
-        class="hidden sm:inline-flex"
-      />
+      @if (!accountService.currentUser()) {
+        <p-button
+          label="Login"
+          variant="outlined"
+          severity="contrast"
+          class="hidden sm:inline-flex"
+          routerLink="/login"
+        />
+      } @else {
+        <div class="flex items-center">
+          <p-menu #menu styleClass="w-40" [model]="items" [popup]="true" />
+          <button
+            type="button"
+            class="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600"
+            (click)="menu.toggle($event)"
+          >
+            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-sky-400 text-sm font-semibold text-white">
+              {{ (accountService.currentUser()?.email || 'U').charAt(0).toUpperCase() }}
+            </span>
+            <span class="hidden sm:inline-block max-w-30 truncate">
+              {{ accountService.currentUser()?.email }}
+            </span>
+            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+          </button>
+        </div>
+      }
 
       <!-- Mobile menu toggle -->
       <button

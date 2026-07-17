@@ -43,7 +43,7 @@ export class ProductService {
     return this.http.get<string[]>(`${this.basedUrl}products/types`).pipe(
       tap((data) => this.types.set(data)),
       catchError((err) => {
-        console.log(err);
+        
         return of(null);
       })
     );
@@ -54,7 +54,7 @@ export class ProductService {
     return this.http.get<string[]>(`${this.basedUrl}products/brands`).pipe(
       tap((data) => this.brands.set(data)),
       catchError((err) => {
-        console.log(err);
+
         return of(null);
       })
     );

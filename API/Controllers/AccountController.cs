@@ -61,12 +61,12 @@ public class AccountController(SignInManager<AppUser> signInManager) : Controlle
             user.Email,
             user.FirstName,
             user.LastName,
-
+            user.Address
         });
     }
 
     [Authorize]
-    [HttpPost("address")]
+    [HttpGet("address")]
     public async Task<ActionResult<AddressDto>> GetAddress()
     {
         var user = await GetCurrentUserAsync();

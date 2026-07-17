@@ -1,0 +1,113 @@
+<div class="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
+  <div class="mx-auto flex max-w-5xl items-center justify-center">
+    <div class="w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/70">
+      <div class="grid min-h-175 md:grid-cols-2">
+        <div class="flex flex-col justify-between bg-slate-900 p-8 text-white sm:p-10 lg:p-12">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.35em] text-slate-300">Skinet</p>
+            <h1 class="mt-6 text-3xl font-semibold sm:text-4xl">Create your account</h1>
+            <p class="mt-3 max-w-md text-sm leading-6 text-slate-300 sm:text-base">
+              Join Skinet to discover new arrivals, save favorites, and keep track of your orders.
+            </p>
+          </div>
+          <div class="mt-8 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm">
+            <p class="text-sm text-slate-200">Already joined?</p>
+            <p class="mt-1 text-lg font-medium">Sign in and continue where you left off.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center p-6 sm:p-8 lg:p-12">
+          <div class="w-full max-w-md">
+            <div class="mb-8">
+              <p class="text-sm font-semibold uppercase tracking-[0.35em] text-sky-600">Register</p>
+              <h2 class="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">Create a new account</h2>
+            </div>
+
+            <form class="space-y-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="firstName" class="mb-2 block text-sm font-medium text-slate-700">First name</label>
+                  <input
+                    id="firstName"
+                    type="text"
+                    formControlName="firstName"
+                    placeholder="John"
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
+                  />
+                </div>
+                <div>
+                  <label for="lastName" class="mb-2 block text-sm font-medium text-slate-700">Last name</label>
+                  <input
+                    id="lastName"
+                    type="text"
+                    formControlName="lastName"
+                    placeholder="Doe"
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="email" class="mb-2 block text-sm font-medium text-slate-700">Email address</label>
+                <input
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="you@example.com"
+                  class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
+                />
+              </div>
+
+              <div>
+                <label for="password" class="mb-2 block text-sm font-medium text-slate-700">Password</label>
+                <div class="relative">
+                  <input
+                    id="password"
+                    [type]="showPassword ? 'text' : 'password'"
+                    formControlName="password"
+                    placeholder="Create a password"
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
+                  />
+                  <button
+                    type="button"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 transition hover:text-slate-700"
+                    (click)="togglePasswordVisibility()"
+                    aria-label="Toggle password visibility"
+                  >
+                    <i class="fa-solid" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+                  </button>
+                </div>
+              </div>
+              @if(validationErrors().length>0){
+
+                <div  role="alert" class="mt-3 rounded-lg border border-red-200 bg-red-50 p-3">
+                  <ul class="space-y-1">
+                    @for(e of validationErrors(); track $index){
+
+                      <li  class="text-sm text-red-700">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>{{ e }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+
+
+              <button
+                type="submit"
+                class="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                Create account
+              </button>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-slate-600">
+              Already have an account?
+              <a routerLink="/login" class="ml-1 font-semibold text-sky-600 transition hover:text-sky-700">Sign in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

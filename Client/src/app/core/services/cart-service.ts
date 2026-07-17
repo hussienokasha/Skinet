@@ -27,14 +27,14 @@ export class CartService {
     if (!id) return;
     return this.http.get<Cart>(`${this.basedUrl}cart`, { params: { id } }).subscribe({
       next: (data) => this.cart.set(data),
-      error: (err) => console.log(err),
+
     });
   }
 
   setCart(cart: Cart) {
     return this.http.post<Cart>(`${this.basedUrl}cart`, cart).subscribe({
       next: (data) => this.cart.set(data),
-      error: (err) => console.log(err),
+     
     });
   }
 
@@ -91,7 +91,7 @@ export class CartService {
         this.cart.set(null);
         localStorage.removeItem('cart_id');
       },
-      error: (err) => console.log(err),
+
     });
   }
 
