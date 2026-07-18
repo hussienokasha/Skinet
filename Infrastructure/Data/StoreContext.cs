@@ -10,6 +10,8 @@ public class StoreContext(DbContextOptions<StoreContext> options)
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Address> Addresses => Set<Address>();
+    public DbSet<DeliveryMethod> DeliveryMethods => Set<DeliveryMethod>();
+   
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
