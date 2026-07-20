@@ -1,7 +1,10 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const messageService = inject(MessageService);
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       if (err.status === 400) {
@@ -19,7 +22,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       if (err.status === 401) {
+        messageService.add({
+      severity: 'error',
+      summary: 'Username or Password is incorrect',
+      life: 3000
+    });
         return throwError(() => err.error?.message || 'Unauthorized');
+
       }
 
       if (err.status === 404) {

@@ -15,7 +15,7 @@ export class AccountService {
 
   login(values: any) {
     let params = new HttpParams().append('useCookies', true);
-    return this.http.post<User>(this.baseUrl + 'login', values,{params,});
+    return this.http.post<User>(this.baseUrl + 'login', values, { params });
   }
   register(values: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', values);
@@ -24,15 +24,25 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'account/logout', {});
   }
   getCurrentUser() {
-    return this.http.get<User>(this.baseUrl + 'account/me',).pipe(
+    return this.http.get<User>(this.baseUrl + 'account/me').pipe(
       tap((data) => {
         console.log(data);
         this.currentUser.set(data);
-        
-      })
-    )
+      }),
+    );
   }
-  updateAddress(values: Address){
-return this.http.post(this.baseUrl + 'account/address', values);
+  updateAddress(values: Address) {
+    return this.http.put(this.baseUrl + 'account/address', values).pipe(
+      tap(() => {
+        const user = this.currentUser();
+        if (user) {
+          user.address = values;
+          this.currentUser.update(user=>{
+            if(user) user.address = values;
+            return user;
+          });
+        }
+      }),
+    );
   }
 }

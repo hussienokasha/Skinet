@@ -9,6 +9,7 @@ import { Login } from './features/login/login';
 import { Signup } from './features/signup/signup';
 import { authGuard } from './core/guards/auth-guard';
 import { checkoutGuard } from './core/guards/checkout-guard';
+import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
   { path: '', component: Home, pathMatch: 'full' },
@@ -19,5 +20,5 @@ export const routes: Routes = [
   {path:'checkout',component:Checkout,canActivate:[authGuard,checkoutGuard]},
   {path:'login',component:Login},
   {path:'signup',component:Signup},
-  { path: '**', redirectTo: '' },
+  { path: '**', component:NotFound },
 ];

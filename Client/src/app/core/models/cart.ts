@@ -1,6 +1,10 @@
 export interface Cart {
   id: string;
   cartItems: CartItem[];
+  deliveryMethodId?: number;
+  paymentIntentId?: string;
+  clientSecret?: string;
+
 }
 
 export interface CartItem {

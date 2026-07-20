@@ -47,7 +47,7 @@ public class AccountController(SignInManager<AppUser> signInManager) : Controlle
         return NoContent();
 
     }
-
+[Authorize]
     [HttpGet("me")]
     public async Task<ActionResult> UserInfo()
     {

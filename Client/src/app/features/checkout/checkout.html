@@ -1,1 +1,111 @@
-<p class="text-4xl">You're not authenticated!</p>
+<div class="container mx-auto max-w-6xl px-4 py-10">
+  <div class="flex gap-6">
+    <div class="w-3/4">
+      <p-stepper [value]="1" class="basis-200 min-w-0">
+        <p-step-list>
+          <p-step [value]="1">Address</p-step>
+          <p-step [value]="2">Shipping</p-step>
+          <p-step [value]="3">Payment</p-step>
+          <p-step [value]="4">Confirmation</p-step>
+        </p-step-list>
+        <p-step-panels>
+          <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div id="address-element"></div>
+              <div class="flex justify-end gap-4 mt-3">
+                <p-checkbox [(ngModel)]="checked" [binary]="true" />
+                <p>Save this address for next time</p>
+              </div>
+              <div class="flex pt-5 justify-between">
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                  routerLink="/shop"
+                >
+                  <i class="fas fa-arrow-left mr-2"></i>Continue Shooping
+                </button>
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  (click)="activateCallback(2);saveAddress()"
+                >
+                  Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex pt-5 justify-between">
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                  (click)="activateCallback(1)"
+                >
+                  <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  (click)="activateCallback(3)"
+                >
+                  Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col h-48">
+                <div
+                  class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded-sm bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium text-sm"
+                >
+                  Content III
+                </div>
+              </div>
+              <div class="flex pt-5 justify-between">
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                  (click)="activateCallback(2)"
+                >
+                  <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  (click)="activateCallback(4)"
+                >
+                  Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <p-step-panel [value]="4">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col h-48">
+                <div
+                  class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded-sm bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium text-sm"
+                >
+                  Content III
+                </div>
+              </div>
+              <div class="flex pt-5 justify-start">
+                <button
+                  type="button"
+                  class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                  (click)="activateCallback(3)"
+                >
+                  <i class="fas fa-arrow-left mr-2"></i>Back
+                </button>
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-panels>
+      </p-stepper>
+    </div>
+    <div class="w-1/4">
+      <app-checkout-summary></app-checkout-summary>
+    </div>
+  </div>
+</div>
