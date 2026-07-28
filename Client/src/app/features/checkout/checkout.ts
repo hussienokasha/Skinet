@@ -8,10 +8,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../core/services/account-service';
 import { Address } from '../../core/models/user';
+import { CheckoutDelivery } from "./checkout-delivery/checkout-delivery";
 
 @Component({
   selector: 'app-checkout',
-  imports: [CheckoutSummary, StepperModule, RouterLink, CheckboxModule, FormsModule],
+  imports: [CheckoutSummary, StepperModule, RouterLink, CheckboxModule, FormsModule, CheckoutDelivery],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })

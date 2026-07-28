@@ -4,8 +4,13 @@
             <span>Subtotal</span>
             <span>{{ cartService.totalPrice() | currency }}</span>
           </div>
-          <div class="mb-6 rounded-2xl bg-gray-50 px-4 py-4 text-sm text-gray-700">
-            Taxes and shipping calculated at checkout.
+          <div class="mb-4 flex items-center justify-between text-sm text-gray-600">
+            <span>ٍShipping fee</span>
+            <span>{{ cartService.shippingPrice() | currency }}</span>
+          </div>
+          <div class="mb-4 flex items-center justify-between text-sm font-semibold text-gray-900 border-t pt-4">
+            <span>Total</span>
+            <span>{{ cartService.totalPriceWithShipping() | currency }}</span>
           </div>
           @if(location.path() != '/checkout'){
 

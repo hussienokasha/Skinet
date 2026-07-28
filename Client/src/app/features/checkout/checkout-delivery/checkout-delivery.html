@@ -1,0 +1,26 @@
+<div class="space-y-3">
+  @for( method of checkoutService.deliveryMethods(); track method.id){
+
+    <label  class="flex items-center justify-between gap-4 p-4 rounded-xl border transition-colors duration-150 cursor-pointer hover:border-slate-300"
+      [ngClass]="{ 'border-indigo-500 bg-indigo-50': cartService.cart()?.deliveryMethodId === method.id, 'border-slate-200 bg-white': cartService.cart()?.deliveryMethodId !== method.id }">
+      <div class="flex items-start gap-4">
+        <input
+          type="radio"
+          name="deliveryMethod"
+          [value]="method.id"
+          [checked]="cartService.cart()?.deliveryMethodId === method.id"
+          (change)="onDeliveryMethodSelect(method)"
+          class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500" />
+
+        <div>
+          <div class="text-sm font-semibold text-slate-900">{{ method.shortName }}</div>
+          <div class="text-xs text-slate-500">{{ method.deliveryTime }}</div>
+          <div class="mt-1 text-sm text-slate-600">{{ method.description }}</div>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <div class="text-sm font-semibold text-slate-900">{{ method.price === 0 ? 'Free' : ('$' + method.price) }}</div>
+      </div>
+    </label>
+  }

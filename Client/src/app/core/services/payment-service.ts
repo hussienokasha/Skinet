@@ -57,7 +57,7 @@ export class PaymentService {
           defaultValues.address = {
             line1: user.address.line1,
             line2: user.address.line2,
-            country: 'EG',
+            country: user.address.country,
             city: user.address.city,
             state: user.address.state,
             postal_code: user.address.zipCode,

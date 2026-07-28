@@ -11,6 +11,7 @@ export class CartService {
   private basedUrl = environment.apiUrl;
 
   cart = signal<Cart | null>(null);
+  shippingPrice = signal<number>(0);
   itemsCount = computed(() => {
     const cart = this.cart();
     if (!cart) return 0;
@@ -21,20 +22,21 @@ export class CartService {
     if (!cart) return 0;
     return cart.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   });
+  totalPriceWithShipping = computed(() => {
+    return this.totalPrice() + this.shippingPrice();
+  });
 
   getCart() {
     const id = localStorage.getItem('cart_id');
     if (!id) return;
     return this.http.get<Cart>(`${this.basedUrl}cart`, { params: { id } }).subscribe({
       next: (data) => this.cart.set(data),
-
     });
   }
 
   setCart(cart: Cart) {
     return this.http.post<Cart>(`${this.basedUrl}cart`, cart).subscribe({
       next: (data) => this.cart.set(data),
-     
     });
   }
 
@@ -55,7 +57,7 @@ export class CartService {
       };
     } else {
       // For new items, use the product's quantity field or the delta
-      const qty = quantityDelta > 0 ? quantityDelta : (product.quantity || 1);
+      const qty = quantityDelta > 0 ? quantityDelta : product.quantity || 1;
       items.push({ ...product, quantity: qty });
     }
 
@@ -91,7 +93,6 @@ export class CartService {
         this.cart.set(null);
         localStorage.removeItem('cart_id');
       },
-
     });
   }
 
