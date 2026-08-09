@@ -13,12 +13,12 @@ import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
   { path: '', component: Home, pathMatch: 'full' },
-  { path: 'shop', component: Shop, },
+  { path: 'shop', component: Shop },
   { path: 'shop/:id', component: ShopDetails },
   { path: 'contact', component: Contact },
   { path: 'cart', component: Cart },
-  {path:'checkout',component:Checkout,canActivate:[authGuard,checkoutGuard]},
-  {path:'login',component:Login},
-  {path:'signup',component:Signup},
-  { path: '**', component:NotFound },
+  { path: 'checkout', component: Checkout, canActivate: [authGuard, checkoutGuard] },
+  { path: 'login', component: Login },
+  { path: 'signup', component: Signup },
+  { path: '**', component: NotFound },
 ];

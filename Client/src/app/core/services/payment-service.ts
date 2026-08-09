@@ -4,6 +4,7 @@ import {
   StripeAddressElement,
   StripeAddressElementOptions,
   StripeElements,
+  StripePaymentElement,
   loadStripe,
 } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment';
@@ -22,6 +23,7 @@ export class PaymentService {
   cartService = inject(CartService);
   private elements?: StripeElements;
   addressElement?: StripeAddressElement;
+  paymentElement?: StripePaymentElement;
   private sripePromise: Promise<Stripe | null>;
   accountService = inject(AccountService);
 
@@ -73,6 +75,29 @@ export class PaymentService {
       }
     }
     return this.addressElement;
+  }
+  async createConfirmationToken() {
+    const stripe = await this.getStripeInstance();
+    const elements = await this.initializeElements();
+    const result = await elements.submit();
+    if (result.error) throw new Error(result.error.message);
+    if(stripe){
+      return await stripe.createConfirmationToken({elements})
+    } else{
+      throw new Error('Stripe not found');
+    }
+  }
+
+  async createPaymentElement() {
+    if (!this.paymentElement) {
+      const elements = await this.initializeElements();
+      if (elements) {
+        this.paymentElement = elements.create('payment');
+      } else {
+        throw new Error('Stripe not found');
+      }
+    }
+    return this.paymentElement;
   }
 
   getStripeInstance() {

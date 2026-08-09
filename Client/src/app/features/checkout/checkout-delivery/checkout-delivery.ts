@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { DeliveryMethod } from '../../../core/models/delivery-method';
 import { CheckoutService } from '../../../core/services/checkout-service';
 import { CartService } from '../../../core/services/cart-service';
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class CheckoutDelivery {
   checkoutService = inject(CheckoutService);
   cartService = inject(CartService);
+  deliveryStatus = output<boolean>();
 
   ngOnInit() {
     this.getDeliveryMethods();
@@ -21,12 +22,13 @@ export class CheckoutDelivery {
   getDeliveryMethods() {
     this.checkoutService.getDeliveryMethods().subscribe({
       error: (err) => {
-        console.log(err);
+        console.error('Failed to load delivery methods:', err);
       },
     });
   }
 
   onDeliveryMethodSelect(method: DeliveryMethod) {
     this.checkoutService.selectDeliveryMethod(method);
+    this.deliveryStatus.emit(true);
   }
 }

@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
         if (validationErrors) {
           const messages = Object.values(validationErrors).flatMap((value: any) =>
-            Array.isArray(value) ? value : [value]
+            Array.isArray(value) ? value : [value],
           );
 
           return throwError(() => messages);
@@ -23,12 +23,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (err.status === 401) {
         messageService.add({
-      severity: 'error',
-      summary: 'Username or Password is incorrect',
-      life: 3000
-    });
+          severity: 'error',
+          summary: 'Username or Password is incorrect',
+          life: 3000,
+        });
         return throwError(() => err.error?.message || 'Unauthorized');
-
       }
 
       if (err.status === 404) {
@@ -40,6 +39,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       return throwError(() => err);
-    })
+    }),
   );
 };
